@@ -3,6 +3,7 @@ import { Appointment } from "@/types/Appointment";
 import { Doctor } from "@/types/Doctor";
 import { Patient } from "@/types/Patient";
 import { ServiceResult } from "@/types/ServiceResult";
+import { CreateDoctorRequest } from "@/types/dtos/CreateDoctorRequest";
 
 const api = axios.create({
   baseURL: "https://localhost:7192/api/",
@@ -33,6 +34,21 @@ export const getDoctorById = async (
   id: number
 ): Promise<ServiceResult<Doctor>> => {
   const response = await api.get<ServiceResult<Doctor>>(`doctors/${id}`);
+  return response.data;
+};
+
+export const createDoctor = async (
+  createDoctorRequest: CreateDoctorRequest
+): Promise<ServiceResult<Doctor>> => {
+  const response = await api.post<ServiceResult<Doctor>>(
+    "doctors",
+    createDoctorRequest,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.data;
 };
 
