@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import DryForm from "@/components/DryForm";
 import { FormField } from "@/components/DryForm/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +10,7 @@ import { createDoctor } from "@/services/apiService";
 import { Doctor } from "@/types/Doctor";
 import { CreateDoctorRequest } from "@/types/dtos/CreateDoctorRequest";
 import { ServiceResult } from "@/types/ServiceResult";
+import { AxiosError } from "axios";
 
 export default function CreateDoctor() {
   const queryClient = useQueryClient();
@@ -53,7 +55,9 @@ export default function CreateDoctor() {
     },
     onError: (error) => {
       // @ts-no-check
-      setErrors(error.response?.data?.errorMessage || []);
+      setErrors(
+        error instanceof AxiosError ? error.response?.data?.errorMessage : []
+      );
     },
   });
 
@@ -63,9 +67,13 @@ export default function CreateDoctor() {
         Create Doctor
       </Typography>
       {errors.map((error, index) => (
-        <Typography key={index} color="error" mb="2">
-          Validation Error: {error}
-        </Typography>
+        <Alert
+          key={index}
+          severity="error"
+          sx={{ width: "100%", marginBottom: 2 }}
+        >
+          {error}
+        </Alert>
       ))}
       <DryForm
         mutationFn={{

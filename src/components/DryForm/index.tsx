@@ -5,9 +5,10 @@ import Button from "@mui/material/Button";
 import { z } from "zod";
 import { createZodSchema } from "./utils";
 import { FormField, SelectOptionsDictionary } from "./types";
+import { UseMutateFunction } from "@tanstack/react-query";
 
 interface MutationFn {
-  mutate: (data: unknown) => void;
+  mutate: UseMutateFunction<unknown, unknown, unknown, unknown>;
   error: unknown;
   data: unknown;
 }
@@ -76,11 +77,7 @@ const DryForm: React.FC<FormBuilderProps> = ({ mutationFn, formFields }) => {
           />
         </div>
       ))}
-      <Button
-        type="submit"
-        variant="contained"
-        fullWidth
-      >
+      <Button type="submit" variant="contained" fullWidth>
         Send
       </Button>
     </form>
