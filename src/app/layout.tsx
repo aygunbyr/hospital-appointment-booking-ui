@@ -5,6 +5,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import DashboardLayout from "@/components/DashboardLayout";
+import ClientProviders from "@/components/ClientProviders";
 
 export const metadata: Metadata = {
   title: "Hospital Appointment Booking",
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <DashboardLayout>{children}</DashboardLayout>
+        <ClientProviders>
+          <DashboardLayout>{children}</DashboardLayout>
+        </ClientProviders>
       </body>
     </html>
   );
