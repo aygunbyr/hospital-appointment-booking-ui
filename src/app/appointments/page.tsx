@@ -23,7 +23,7 @@ export default function AppointmentList() {
     isError,
     isLoading,
   } = useQuery<ServiceResult<Appointment[]>>({
-    queryKey: ["Appointments"],
+    queryKey: ["appointments"],
     queryFn: getAppointments,
   });
 

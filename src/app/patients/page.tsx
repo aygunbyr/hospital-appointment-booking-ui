@@ -20,7 +20,7 @@ export default function PatientList() {
     isError,
     isLoading,
   } = useQuery<ServiceResult<Patient[]>>({
-    queryKey: ["Patients"],
+    queryKey: ["patients"],
     queryFn: getPatients,
   });
 
