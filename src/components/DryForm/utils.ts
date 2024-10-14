@@ -108,3 +108,17 @@ export const createZodSchema = (fields: FormField[]) => {
 
   return z.object(schemaShape);
 };
+
+export const formatDateString = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  const pad = (num: number) => (num < 10 ? "0" + num : num);
+
+  const formattedDate = `${date.getFullYear()}-${pad(
+    date.getMonth() + 1
+  )}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(
+    date.getMinutes()
+  )}:${pad(date.getSeconds())}.000`;
+
+  return formattedDate;
+};

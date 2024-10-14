@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import { z } from "zod";
-import { createZodSchema } from "./utils";
+import { createZodSchema, formatDateString } from "./utils";
 import { FormField, SelectOptionsDictionary } from "./types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
@@ -40,10 +40,14 @@ const DryForm: React.FC<FormBuilderProps> = ({ mutationFn, formFields }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      formData.map((field: FormField & { value: string }) =>
+        field.type === "date"
+          ? { ...field, value: formatDateString(field.value) }
+          : field
+      );
+      console.log(formData);
       formSchema.parse(formData);
       setErrors({});
-
-      // Form verilerini gönder
       mutationFn.mutate(formData);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -54,9 +58,6 @@ const DryForm: React.FC<FormBuilderProps> = ({ mutationFn, formFields }) => {
         setErrors(fieldErrors);
       }
     }
-
-    console.log(errors);
-    console.log(mutationFn.error);
   };
 
   return (

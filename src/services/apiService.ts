@@ -4,9 +4,11 @@ import { Doctor } from "@/types/Doctor";
 import { Patient } from "@/types/Patient";
 import { ServiceResult } from "@/types/ServiceResult";
 import { CreateDoctorRequest } from "@/types/dtos/CreateDoctorRequest";
+import { CreatePatientRequest } from "@/types/dtos/CreatePatientRequest";
+import { CreateAppointmentRequest } from "@/types/dtos/CreateAppointmentRequest";
 
 const api = axios.create({
-  baseURL: "https://localhost:7192/api/",
+  baseURL: "http://localhost:5166/api/",
 });
 
 export const getAppointments = async (): Promise<
@@ -21,6 +23,21 @@ export const getAppointmentById = async (
 ): Promise<ServiceResult<Appointment>> => {
   const response = await api.get<ServiceResult<Appointment>>(
     `appointments/${id}`
+  );
+  return response.data;
+};
+
+export const createAppointment = async (
+  createAppointmentRequest: CreateAppointmentRequest
+): Promise<ServiceResult<Appointment>> => {
+  const response = await api.post<ServiceResult<Appointment>>(
+    "appointments",
+    createAppointmentRequest,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
   );
   return response.data;
 };
@@ -61,6 +78,21 @@ export const getPatientById = async (
   id: string
 ): Promise<ServiceResult<Patient>> => {
   const response = await api.get<ServiceResult<Patient>>(`patients/${id}`);
+  return response.data;
+};
+
+export const createPatient = async (
+  createPatientRequest: CreatePatientRequest
+): Promise<ServiceResult<Patient>> => {
+  const response = await api.post<ServiceResult<Patient>>(
+    "patients",
+    createPatientRequest,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   return response.data;
 };
 
